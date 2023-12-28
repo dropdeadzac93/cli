@@ -50,9 +50,10 @@ The table below provides an overview of the current status of deprecated feature
 
 | Status     | Feature                                                                                                                            | Deprecated | Remove |
 |------------|------------------------------------------------------------------------------------------------------------------------------------|------------|--------|
-| Deprecated | [IsAutomated field, and "is-automated" filter on docker search](#isautomated-field--and-is--automated-filter-on-docker-search)     | v25.0      | -      |
+| Deprecated | [Container short ID in network Aliases field](#container-short-id-in-network-aliases-field)                                        | v25.0      | v26.0  |
+| Deprecated | [IsAutomated field, and "is-automated" filter on docker search](#isautomated-field-and-is-automated-filter-on-docker-search)       | v25.0      | v26.0  |
 | Removed    | [logentries logging driver](#logentries-logging-driver)                                                                            | v24.0      | v25.0  |
-| Deprecated | [OOM-score adjust for the daemon](#oom-score-adjust-for-the-daemon)                                                                | v24.0      | v25.0  |
+| Removed    | [OOM-score adjust for the daemon](#oom-score-adjust-for-the-daemon)                                                                | v24.0      | v25.0  |
 | Removed    | [Buildkit build information](#buildkit-build-information)                                                                          | v23.0      | v24.0  |
 | Deprecated | [Legacy builder for Linux images](#legacy-builder-for-linux-images)                                                                | v23.0      | -      |
 | Deprecated | [Legacy builder fallback](#legacy-builder-fallback)                                                                                | v23.0      | -      |
@@ -109,6 +110,21 @@ The table below provides an overview of the current status of deprecated feature
 | Removed    | [Three arguments form in `docker import`](#three-arguments-form-in-docker-import)                                                  | v0.6.7     | v1.12  |
 
 
+### Container short ID in network Aliases field
+
+**Deprecated in Release: v25.0**
+**Target For Remove In Release: v26.0**
+
+The `Aliases` field returned by `docker inspect` contains the container short
+ID once the container is started. This behavior is deprecated in v25.0 but
+kept until the next release, v26.0. Starting with that version, the `Aliases`
+field will only contain the aliases set through the `docker container create`
+and `docker run` flag `--network-alias`.
+
+A new field `DNSNames` containing the container name (if one was specified),
+the hostname, the network aliases, as well as the container short ID, has been
+introduced in v25.0 and should be used instead of the `Aliases` field.
+
 ### IsAutomated field, and "is-automated" filter on docker search
 
 **Deprecated in Release: v25.0**
@@ -137,7 +153,7 @@ after upgrading.
 ### OOM-score adjust for the daemon
 
 **Deprecated in Release: v24.0**
-**Target For Removal In Release: v25.0**
+**Removed in Release: v25.0**
 
 The `oom-score-adjust` option was added to prevent the daemon from being
 OOM-killed before other processes. This option was mostly added as a
